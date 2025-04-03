@@ -1,1 +1,85 @@
-{"noiseKey":{"private":{"type":"Buffer","data":"CEs05ZrBksrK39Yy5R8IBnDj46MVjwgTO/thpWKIaEQ="},"public":{"type":"Buffer","data":"gGeUcM8JjnIUIvMH261NWot64B5v09q/WiUoHt/9xH8="}},"pairingEphemeralKeyPair":{"private":{"type":"Buffer","data":"4ImUiR400OrAwREMtbW2bvZFaC4KyROUCqXXX2Y+zHY="},"public":{"type":"Buffer","data":"EXBVJCym1EGn0B+tO3dnfBXZwoRJmvUN+qDbzCyUxy4="}},"signedIdentityKey":{"private":{"type":"Buffer","data":"OPKvTbllZTWsy2HByRH6C23F4WfGJT/xFk5l3GjruWU="},"public":{"type":"Buffer","data":"pyJuscbj4h14arSJpWJKhptMjw0A6U5QDpwL2fgyuiE="}},"signedPreKey":{"keyPair":{"private":{"type":"Buffer","data":"CInGNBGLefp6lLU03TWUM9HqPhTHewl5rHQtOEwED1A="},"public":{"type":"Buffer","data":"/RSaRQ6X/edOlqj3T3hZ+9l+L5HcjLTbmzhfdSE00C4="}},"signature":{"type":"Buffer","data":"+6VJcMoQjMOxXmtcN0biiojv8uQfmbhcMZjcTqwnPoORyZEPEicKgKPL5jgW2cJBdK0kOqXnnzrFDSb98RfahQ=="},"keyId":1},"registrationId":171,"advSecretKey":"KSEMGR3ts77Lhqvj4GgaAPBGPthKTxK6pfx4d4TgiZw=","processedHistoryMessages":[{"key":{"remoteJid":"967701892007@s.whatsapp.net","fromMe":true,"id":"4F7A1FCEE1B5E195EDB3A34D98A9E0C3"},"messageTimestamp":1742746500},{"key":{"remoteJid":"967701892007@s.whatsapp.net","fromMe":true,"id":"25D97C9435CE8BE35504AFEEEC82688C"},"messageTimestamp":1742746500}],"nextPreKeyId":31,"firstUnuploadedPreKeyId":31,"accountSyncCounter":1,"accountSettings":{"unarchiveChats":false},"deviceId":"dn4uMmkwRJGuwm5WXOXrpg","phoneId":"0a732a3d-47e7-46af-88d9-6c249fb76c4a","identityId":{"type":"Buffer","data":"gQ4z5iS6rHmWJlDz3Jz1ATIjeqk="},"registered":true,"backupToken":{"type":"Buffer","data":"x/uvcvPECScPm3DT/eGhZ8+rqms="},"registration":{},"pairingCode":"4PYYBNER","me":{"id":"967701892007:28@s.whatsapp.net","name":"accountant"},"account":{"details":"COTfvakBEPTmgL8GGAQgACgA","accountSignatureKey":"LePqoErpv47HhwUxDPo65JQhk1VgtChu8XoGON78CVk=","accountSignature":"q61OVc+sswlxPjIRcpttE3iloa0WmsSz1JNTramLpR3LMPE2/jYx4DkwVqPyoFg0Q4oFSDc0omUmGOraD/O+DQ==","deviceSignature":"SX6oudzjmO/zSzCWVRL/0pVU9V9CzeX96m+2gR0EJsCPz0wMAlXOxo87Cr2evH6KTpfEC1YwnxukzEsRfAkdjw=="},"signalIdentities":[{"identifier":{"name":"967701892007:28@s.whatsapp.net","deviceId":0},"identifierKey":{"type":"Buffer","data":"BS3j6qBK6b+Ox4cFMQz6OuSUIZNVYLQobvF6Bjje/AlZ"}}],"platform":"smba","lastAccountSyncTimestamp":1742746498,"myAppStateKeyId":"AAAAAITg"}
+import fs from 'fs';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const jimp_1 = require('jimp');
+
+let handler = async (m, { conn, command, usedPrefix }) => {
+  let q = m.quoted ? m.quoted : m;
+  let mime = (q.msg ? q.msg : q).mimetype ? q.mimetype : q.mediaType || '';
+
+  if (/image/g.test(mime) && !/webp/g.test(mime)) {
+    try {
+      let media = await q.download();
+      let botNumber = await conn.user.jid;
+      let { img } = await pepe(media);
+
+      // تغيير صورة البروفايل
+      await conn.query({
+        tag: 'iq',
+        attrs: {
+          to: "@s.whatsapp.net",
+          type: 'set',
+          xmlns: 'w:profile:picture'
+        },
+        content: [
+          {
+            tag: 'picture',
+            attrs: { type: 'image' },
+            content: img
+          }
+        ]
+      });
+
+      // إرسال رسالة مزخرفة مع أزرار
+      const buttons = [
+        { buttonId: `${usedPrefix}حطها_بروفايل`, buttonText: { displayText: 'تغيير البروفايل مرة أخرى' }, type: 1 },
+        { buttonId: `${usedPrefix}مساعدة`, buttonText: { displayText: 'مساعدة' }, type: 1 }
+      ];
+
+      const buttonMessage = {
+        text: `*🎉 تم تغيير صورة البروفايل بنجاح!*\n\n*يمكنك الضغط على الأزرار أدناه للتفاعل:*`,
+        footer: '© MysticBot',
+        buttons: buttons,
+        headerType: 1
+      };
+
+      await conn.sendMessage(m.chat, buttonMessage, { quoted: m });
+    } catch (e) {
+      console.log(e);
+      m.reply('حدث خطأ، حاول مرة أخرى لاحقًا');
+    }
+  } else {
+    // إرسال رسالة توجيهية مع أزرار
+    const buttons = [
+      { buttonId: `${usedPrefix}مساعدة`, buttonText: { displayText: 'مساعدة' }, type: 1 }
+    ];
+
+    const buttonMessage = {
+      text: `*📸 أرسل الصورة مع التسمية التوضيحية ${usedPrefix + command}*\n*أو قم بالاشارة للصورة التي تريد وضعها كبروفايل البوت*\n\n*يمكنك الضغط على الزر أدناه للحصول على المساعدة:*`,
+      footer: '© MysticBot',
+      buttons: buttons,
+      headerType: 1
+    };
+
+    await conn.sendMessage(m.chat, buttonMessage, { quoted: m });
+  }
+};
+
+handler.help = ['حطها_بروفايل'];
+handler.tags = ['owner'];
+handler.command = /^(حطها_بروفايل)$/i;
+handler.rowner = true;
+
+export default handler;
+
+async function pepe(media) {
+  const jimp = require('jimp');
+  const image = await jimp.read(media);
+  const min = image.getWidth();
+  const max = image.getHeight();
+  const cropped = image.crop(0, 0, min, max);
+  return {
+    img: await cropped.scaleToFit(720, 720).getBufferAsync(jimp.MIME_JPEG),
+    preview: await cropped.normalize().getBufferAsync(jimp.MIME_JPEG)
+  };
+}
