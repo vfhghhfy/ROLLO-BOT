@@ -13,7 +13,7 @@ import { en, es, id, ar, pt } from "./lib/idiomas/total-idiomas.js"
 // [ES] > Agrega el número que será Bot y los que serán propietarios.
 // [EN] > Add the number that will be Bot and those that will be owners.
 global.owner = [
-["972546887176", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', true], //𝙂𝙖𝙩𝙖𝘽𝙤𝙩-𝙈𝘿 💖🐈
+["967778668253", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', true], //𝙂𝙖𝙩𝙖𝘽𝙤𝙩-𝙈𝘿 💖🐈
 ]
 
 global.mods = []
@@ -115,9 +115,9 @@ global.moment = moment
 // [ES] > Agregate a ti, colaboradores o ayudates, aparecerá en el comando de lista de contactos.
 // [EN] > Adding yourself, collaborators or helpers will appear in the contact list command.
 global.official = [ // Agregate si eres Owner
-["972546887176", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', 1], 
-["972546887176", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', 1],  
-["972546887176", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', 1]]
+["967778668253", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', 1], 
+["967778668253", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', 1],  
+["967778668253", '𝐇𝐚𝐫𝐥𝐞𝐲 𝐥𝐢𝐠𝐡𝐭', 1]]
 
 global.mail = '' // Add email
 global.desc = '' // Add short description (20 caractres max)
@@ -164,7 +164,7 @@ global.exito = eg
 // • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • •
 global.wm = "𝐁𝐎𝐀𝐘𝐊𝐀 | 𝐇𝐚𝐫𝐥𝐞𝐲"
 global.igfg = "𝐁𝐎𝐀𝐘𝐊𝐀 | 𝐇𝐚𝐫𝐥𝐞𝐲"
-global.nomorown = "972546887176"
+global.nomorown = "967778668253"
 global.pdoc = ["application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/msword", "application/pdf", "text/rtf"]
 // • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • • •
 
